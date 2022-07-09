@@ -1,6 +1,17 @@
 const userService = require("../services/userService");
 const jwt = require("jsonwebtoken");
 
+
+async function getAllUsers(req, res) {
+    try {
+        const allUsers = await userService.findAllUsers();
+        return res.status(201).json(allUsers);
+    } catch (e) {
+        console.log(e);
+        return res.status(400).json({message: "Registration error"});
+    }
+
+}
 async function registerUser(req, res) {
     try {
         const {email, name, password} = req.body;
@@ -47,4 +58,4 @@ function createJWT(email, name) {
     return token;
 }
 
-module.exports = {registerUser, loginUser};
+module.exports = {registerUser, loginUser,getAllUsers};

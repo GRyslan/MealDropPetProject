@@ -24,6 +24,18 @@ async function createUser(email, name, password) {
 
 }
 
+async function findAllUsers() {
+    try{
+        const users = await User.find();
+        return users;
+    }
+    catch(e){
+        console.log(e);
+        return false
+    }
+
+}
+
 module.exports = {
-    findUser, createUser
+    findUser, createUser,findAllUsers
 };
