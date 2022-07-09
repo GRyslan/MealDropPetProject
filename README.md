@@ -2,14 +2,14 @@ This project will be created based on course task in Coursera Capstone Project M
 
 Not hosted(and will not)
 
-Current Task: create client with basic code and packages and connect it with server
+<u>Current Task</u>: create client with basic code and packages and connect it with server
 
-Current Technology Stack: Express.js Rabbit MQ Mongoose (for Mongo DB) jsonwebtoken
+<u>Current Technology Stack</u>: Express.js Rabbit MQ Mongoose (for Mongo DB) jsonwebtoken
 
-Current Project include:
+<u>Current Project</u> include:
 
-Server
+<u>Server</u>
 
 boilerplate app.js from course and created packages with minimal code for project to work
 
-Client nothing
+<u>Client</u> nothing
