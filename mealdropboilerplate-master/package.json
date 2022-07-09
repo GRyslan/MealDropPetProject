@@ -1,0 +1,24 @@
+
+{
+  "name": "mealdroptest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "npx eslint --output-file eslint_html_report.html --format html MealDrop**/**"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@babel/node": "^7.16.8",
+    "@babel/preset-env": "^7.16.11",
+    "eslint": "^8.13.0",
+    "eslint-plugin-import": "^2.26.0"
+  },
+  "dependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
