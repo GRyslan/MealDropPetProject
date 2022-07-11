@@ -6,8 +6,7 @@ async function findUser(email) {
         return userExist;
     }
     catch(e){
-        console.log(e);
-        return false
+        return e
     }
 
 }
@@ -15,6 +14,7 @@ async function findUser(email) {
 async function createUser(email, name, password) {
     try{
         const newUser = await User.create({email, name, password});
+        console.log('Logged')
         return newUser;
     }
     catch(e){
@@ -30,8 +30,7 @@ async function findAllUsers() {
         return users;
     }
     catch(e){
-        console.log(e);
-        return false
+        return e
     }
 
 }

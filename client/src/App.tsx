@@ -10,9 +10,9 @@ const App = () => {
   const theme = useTypedSelector((state) => state.themeSlice);
   return (
     <BrowserRouter>
-      <NavBar/>
         <ThemeProvider theme={theme.darkTheme ? darkTheme : lightTheme}>
           <CssBaseline/>
+          <NavBar/>
           <Router/>
         </ThemeProvider>
     </BrowserRouter>

@@ -1,49 +1,45 @@
 const userService = require("../services/userService");
 const jwt = require("jsonwebtoken");
+const ApiError = require("../classes/errorClass");
 
 
-async function getAllUsers(req, res) {
-    try {
-        const allUsers = await userService.findAllUsers();
-        return res.status(201).json(allUsers);
-    } catch (e) {
-        console.log(e);
-        return res.status(400).json({message: "Registration error"});
+async function getAllUsers(req, res, next) {
+    const allUsers = await userService.findAllUsers();
+    if (allUsers instanceof Error) {
+        return next(ApiError.internal("Error, while accessing database"));
     }
+    return res.status(201).json(allUsers);
 
-}
-async function registerUser(req, res) {
-    try {
-        const {email, name, password} = req.body;
-        const userExist = await userService.findUser(email);
-        if (userExist) {
-            return res.status(400).json({message: "Email already exist"});
-        }
-        const newUser = await userService.createUser(email, name, password);
-        return res.status(201).json({message: `Registration successful + ${newUser}`});
-    } catch (e) {
-        console.log(e);
-        return res.status(400).json({message: "Registration error"});
-    }
 
 }
 
-async function loginUser(req, res) {
-    try {
-        const {email, password} = req.body;
-        const userExist = await userService.findUser(email);
-        if (!userExist) {
-            return res.status(400).json({message: "Email not exist"});
-        }
-        if (password !== userExist.password) {
-            return res.status(400).json({message: "Password not match"});
-        }
-        const token = createJWT(email, userExist.name);
-        return res.json({message: "Login successful", token});
-    } catch (e) {
-        console.log(e);
-        return res.status(400).json({message: "Login error"});
+async function registerUser(req, res, next) {
+    const {email, name, password} = req.body;
+    const userExist = await userService.findUser(email);
+    if (userExist) {
+        return next(ApiError.badRequest("Email already exist"));
     }
+    const newUser = await userService.createUser(email, name, password);
+    return res.status(201).json({message: `Registration successful + ${newUser}`});
+
+
+}
+
+async function loginUser(req, res, next) {
+    const {email, password} = req.body;
+    const userExist = await userService.findUser(email, next);
+    if (userExist instanceof Error) {
+        return next(ApiError.internal("Error, while accessing database"));
+    }
+    if (!userExist) {
+        return next(ApiError.notFound("Email not exist"));
+    }
+    if (password !== userExist.password) {
+        return next(ApiError.notFound("Password not exist"));
+    }
+    const token = createJWT(email, userExist.name);
+    console.log(token);
+    return res.json({message: "Login successful", token});
 }
 
 function createJWT(email, name) {
@@ -58,4 +54,4 @@ function createJWT(email, name) {
     return token;
 }
 
-module.exports = {registerUser, loginUser,getAllUsers};
+module.exports = {registerUser, loginUser, getAllUsers};

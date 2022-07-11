@@ -8,6 +8,14 @@ export const usersApi = coreApi.injectEndpoints({
         url: `/`,
       }),
     }),
+    loginUser: build.mutation({
+      query: (post) => ({
+        url: `/login`,
+        method: 'POST',
+        body: post
+      }),
+    }),
+
   }),
   overrideExisting: false
 });
