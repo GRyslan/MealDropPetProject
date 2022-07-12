@@ -38,8 +38,7 @@ async function loginUser(req, res, next) {
         return next(ApiError.notFound("Password not exist"));
     }
     const token = createJWT(email, userExist.name);
-    console.log(token);
-    return res.json({message: "Login successful", token});
+     return res.json({message: "Login successful", token});
 }
 
 function createJWT(email, name) {
