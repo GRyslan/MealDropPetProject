@@ -7,17 +7,17 @@ Current Task:
  make final version of auth with access and refresh tokens and tests
 
 Current Technology Stack: 
-React.js, TypeScript(for client), Rtk Query, Mui,
+React.js, TypeScript(for client), RTK Query, Mui,
 
 Express.js, Rabbit MQ, Mongoose (for Mongo DB), jsonwebtoken
 
 Current Project include:
 
 Server
-    boilerplate app.js from course ,not stable simple auth
+    boilerplate app.js from course , auth with acceess + refresh (almost final version)
 
 Client
-     not stable simple auth
+     navbar with theme changer, auth with acceess + refresh (almost final version)
     
 Current view
 
