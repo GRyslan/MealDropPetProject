@@ -1,56 +1,55 @@
 const userService = require("../services/userService");
-const jwt = require("jsonwebtoken");
-const ApiError = require("../classes/errorClass");
-
-
-async function getAllUsers(req, res, next) {
-    const allUsers = await userService.findAllUsers();
-    if (allUsers instanceof Error) {
-        return next(ApiError.internal("Error, while accessing database"));
-    }
-    return res.status(201).json(allUsers);
-
-
-}
 
 async function registerUser(req, res, next) {
-    const {email, name, password} = req.body;
-    const userExist = await userService.findUser(email);
-    if (userExist) {
-        return next(ApiError.badRequest("Email already exist"));
+    try {
+        const {email, name, password} = req.body;
+        const newUser = await userService.register(email, name, password);
+        res.cookie("refreshToken", newUser.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true});
+        return res.status(201).json({message: "Registration successful", newUser});
+    } catch (e) {
+        return next(e);
     }
-    const newUser = await userService.createUser(email, name, password);
-    return res.status(201).json({message: `Registration successful + ${newUser}`});
-
-
 }
 
 async function loginUser(req, res, next) {
-    const {email, password} = req.body;
-    const userExist = await userService.findUser(email, next);
-    if (userExist instanceof Error) {
-        return next(ApiError.internal("Error, while accessing database"));
+    try {
+        const {email, password} = req.body;
+        const user = await userService.login(email, password);
+        res.cookie("refreshToken", user.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true});
+        return res.json({message: "Login successful", user});
+    } catch (e) {
+        return next(e);
     }
-    if (!userExist) {
-        return next(ApiError.notFound("Email not exist"));
-    }
-    if (password !== userExist.password) {
-        return next(ApiError.notFound("Password not exist"));
-    }
-    const token = createJWT(email, userExist.name);
-     return res.json({message: "Login successful", token});
 }
 
-function createJWT(email, name) {
-    //create payload
-    const payload = {
-        email,
-        name
-    };
-    const token = jwt.sign(payload, process.env.SECRET_KEY, {
-        expiresIn: 3600
-    });
-    return token;
+async function logoutUser(req, res, next) {
+    try {
+        const {refreshToken} = req.cookies;
+        await userService.logout(refreshToken)
+        res.clearCookie("refreshToken");
+        return res.json({message:"logout successful"})
+    } catch (e) {
+        return next(e);
+    }
+}
+async function refresh(req, res, next) {
+    try {
+        const {refreshToken} = req.cookies
+        const token = await userService.refresh(refreshToken)
+        res.cookie("refreshToken",token.refreshToken, {maxAge: 30*24*60*60*1000, httpOnly: true})
+        return res.json(token)
+    } catch (e) {
+        return next(e)
+    }
+}
+async function getAllUsers(req, res, next) {
+    try{
+        const allUsers = await userService.findAllUsers();
+        return res.status(201).json(allUsers);
+    }
+    catch(e){
+        return(next(e))
+    }
 }
 
-module.exports = {registerUser, loginUser, getAllUsers};
+module.exports = {registerUser, loginUser, getAllUsers,logoutUser,refresh};

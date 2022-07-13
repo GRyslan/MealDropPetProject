@@ -1,26 +1,37 @@
 import { coreApi } from "./coreApi";
-import {UserGetResponse, UserPostResponse, UserLoginRequest,UserRegisterRequest} from '../interfaces/UserInterface';
+import {IUserGetResponse, IUserPostResponse, IUserLoginRequest,UserRegisterRequest} from '../interfaces/IUserApi';
 
 
 export const usersApi = coreApi.injectEndpoints({
   endpoints: (build) => ({
-    getAllUsers: build.query<UserGetResponse[],void>({
+    getAllUsers: build.query<IUserGetResponse[],void>({
       query: () => ({
         url: `/`,
       }),
-      providesTags:["Auth"],
     }),
-    loginUser: build.mutation<UserPostResponse,UserLoginRequest>({
+    loginUser: build.mutation<IUserPostResponse,IUserLoginRequest>({
       query: (post) => ({
         url: `/login`,
         method: 'POST',
         body: post
       }),
-      invalidatesTags:["Auth"],
     }),
-    registerUser: build.mutation<UserPostResponse,UserRegisterRequest>({
+    registerUser: build.mutation<IUserPostResponse,UserRegisterRequest>({
       query: (post) => ({
         url: `/register`,
+        method: 'POST',
+        body: post
+      }),
+    }),
+    logoutUser: build.mutation<IUserPostResponse,void>({
+      query: () => ({
+        url: `/logout`,
+        method: 'POST',
+      }),
+    }),
+    refreshUser: build.mutation<IUserPostResponse,UserRegisterRequest>({
+      query: (post) => ({
+        url: `/refresh`,
         method: 'POST',
         body: post
       }),

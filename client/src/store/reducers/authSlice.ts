@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import {toggleTheme} from './themeSlice';
 
 type AuthState = {
   isAuth: boolean,
@@ -10,12 +11,11 @@ export const authSlice = createSlice({
   initialState: {
     isAuth: false,
     user: null,
-    token:null
+    token: localStorage.getItem('token')
   } as AuthState,
   reducers: {
-    toggleAuth: (state) => {
-      console.log("dispatched")
-      state.isAuth = !state;
+    toggleAuth: (state,{payload}) => {
+      state.isAuth = payload;
     },
     setToken:(state, {payload})=>{
       state.user="SOMETHING"
@@ -24,7 +24,6 @@ export const authSlice = createSlice({
     }
   },
 });
-
 export const { toggleAuth, setToken } = authSlice.actions;
 
 export default authSlice.reducer;

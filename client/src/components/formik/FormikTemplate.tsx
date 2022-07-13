@@ -1,9 +1,9 @@
 import React from 'react';
 import {  Grid, TextField } from '@mui/material';
-import {FormikInterface, ValuesInterface} from '../../interfaces/FormikInterface';
+import {IFormik, IValues} from '../../interfaces/IFormik';
 
-const FormikTemplate = ({ config, handleChange, touched, errors, handleBlur, values }: FormikInterface) => {
-  const builder = (individualConfig: ValuesInterface) => {
+const FormikTemplate = ({ config, handleChange, touched, errors, handleBlur, values }: IFormik) => {
+  const builder = (individualConfig: IValues) => {
     return (<Grid item xs={12} key={individualConfig.label}>
         <TextField multiline id={individualConfig.value} required
                    name={individualConfig.value}
@@ -18,7 +18,7 @@ const FormikTemplate = ({ config, handleChange, touched, errors, handleBlur, val
   }
   return (
     <>
-      {config.map((c: ValuesInterface) => {
+      {config.map((c: IValues) => {
         return builder(c);
       })}
     </>

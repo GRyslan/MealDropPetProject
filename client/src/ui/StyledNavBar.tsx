@@ -1,5 +1,5 @@
 import {AppBar, styled, SvgIcon, Switch} from '@mui/material';
-import {StyledSvgIconPropsInterface} from '../interfaces/StyledSvgIconPropsInterface';
+import {IStyledSvgIconProps} from '../interfaces/IStyledSvgIconProps';
 export const APP_BAR_HEIGHT="60px";
 export const DARK_LIGHT_BLUE = "rgba(144,202,249, 0.75)"
 export const DARK_WHITE = "rgba(255, 255, 255, 0.75)";
@@ -9,7 +9,7 @@ export const StyledAppBar =styled(AppBar)(({theme})=>({
   padding: '0 5px',
 }));
 
-export const StyledSvgIcon = styled(SvgIcon)<StyledSvgIconPropsInterface>(({ theme }) => ({
+export const StyledSvgIcon = styled(SvgIcon)<IStyledSvgIconProps>(({ theme }) => ({
    width: "auto", height:APP_BAR_HEIGHT ,fill:theme.palette.mode==='light'? "gray":DARK_LIGHT_BLUE,
 }));
 

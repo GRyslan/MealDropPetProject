@@ -1,15 +1,15 @@
 import React, {useState} from 'react';
-import {Button, Dialog, Grid, Typography} from '@mui/material';
+import { Dialog, Grid, Typography} from '@mui/material';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import FormikTemplate from '../formik/FormikTemplate';
 import {authLogin,authRegister} from '../formik/authModalValues';
-import {AuthModalInterface} from '../../interfaces/AuthModalInterface';
-import { StyledButton } from '../../ui/generalComponents/StyledButton';
+import {IAuthModal} from '../../interfaces/IAuthModal';
+import {StyledButton, StyledButtonAuth} from '../../ui/generalComponents/StyledButton';
 import {usersApi} from '../../services/userApi';
-import {UserLoginRequest, UserRegisterRequest} from '../../interfaces/UserInterface';
+import {IUserLoginRequest, UserRegisterRequest} from '../../interfaces/IUserApi';
 import {useTypedDispatch} from '../../hooks/redux';
-import {setToken} from '../../store/reducers/authSlice';
+import {setToken, toggleAuth} from '../../store/reducers/authSlice';
 
 const validationSchemaLogin = yup.object({
   email: yup
@@ -31,17 +31,17 @@ const validationSchemaRegister = yup.object({
 const loginInitial = {
   email: '',
   password: "",
-} as UserLoginRequest;
+} as IUserLoginRequest;
 const authInitial = {
   ...loginInitial,
   name:""
-} as UserLoginRequest;
-export function AuthModal({ handleClose, open}: AuthModalInterface) {
+} as IUserLoginRequest;
+export function AuthModal({ handleClose, open}: IAuthModal) {
   const [isLogin,setAuth] = useState(true);
   const handleChangeAuth = ()=>setAuth(!isLogin);
   const dispatch=useTypedDispatch()
   const [login] = usersApi.useLoginUserMutation();
-
+  const {refetch} = usersApi.useGetAllUsersQuery();
   const [register] = usersApi.useRegisterUserMutation();
   const { resetForm, handleBlur, handleChange, handleSubmit, touched, values, errors } = useFormik({
     initialValues: isLogin ? loginInitial  : authInitial ,
@@ -50,23 +50,26 @@ export function AuthModal({ handleClose, open}: AuthModalInterface) {
     onSubmit: async (values) => {
       try {
         console.log(JSON.stringify(values, null, 2));
-        let data
+        let data : any
         if(isLogin){
            data = await login({email: values.email, password: values.password}).unwrap()
         }
         else {
           data = await register({email: values.email, name: values.name, password: values.password}).unwrap()
         }
-        dispatch(setToken(`Bearer ${data.token}`));
+        console.log(data)
+        localStorage.setItem('token', data.user.accessToken );
+        dispatch(toggleAuth(true))
+        dispatch(setToken(data.user.accessToken ));
+        await refetch()
+
         console.log(data);
         resetForm();
+
         return handleClose()
       }
       catch(e:any){
-        console.log(e)
         return alert(JSON.stringify(e.data.message))
-
-
       }
     },
   });
@@ -81,8 +84,8 @@ export function AuthModal({ handleClose, open}: AuthModalInterface) {
           <FormikTemplate config={isLogin ? authLogin : authRegister} handleChange={handleChange} touched={touched} errors={errors}
                          handleBlur={handleBlur} values={values} />
           <Grid item xs={12} >
-            {isLogin ? <div>Don't have account yet ? <br/> Click <StyledButton onClick={handleChangeAuth }>REGISTER</StyledButton></div>
-              : <div>Already have account ? <br/>Click <StyledButton onClick={handleChangeAuth }>LOGIN</StyledButton></div>}
+            {isLogin ? <div>Don't have account yet ? <br/> Click <StyledButtonAuth onClick={handleChangeAuth }>REGISTER</StyledButtonAuth></div>
+              : <div>Already have account ? <br/>Click <StyledButtonAuth onClick={handleChangeAuth }>LOGIN</StyledButtonAuth></div>}
           </Grid>
 
           <Grid item xs={6} display='flex' justifyContent='end'>

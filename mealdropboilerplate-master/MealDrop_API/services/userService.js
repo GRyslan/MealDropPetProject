@@ -1,40 +1,67 @@
 const User = require("../models/userModel");
+const ApiError = require("../classes/errorClass");
+const jwt = require("jsonwebtoken");
 
-async function findUser(email) {
-    try{
-        const userExist = await User.findOne({email});
-        return userExist;
+async function register(email, name, password) {
+    const userExist = await User.findOne({email});
+    if (userExist) {
+        throw ApiError.badRequest("Email already exist");
     }
-    catch(e){
-        return e
-    }
-
+    const newUser = await User.create({email, name, password});
+    const tokens = await createJWT(newUser);
+    return tokens;
 }
 
-async function createUser(email, name, password) {
-    try{
-        const newUser = await User.create({email, name, password});
-        console.log('Logged')
-        return newUser;
+async function login(email, password) {
+    const userExist = await User.findOne({email});
+    if (!userExist) {
+        throw ApiError.notFound("Email not exist");
     }
-    catch(e){
-        console.log(e);
-        return false
+    if (password !== userExist.password) {
+        throw ApiError.notFound("Password not match");
     }
+    const tokens = await createJWT(userExist);
+    return tokens;
+}
 
+async function logout(token) {
+    await User.findOneAndUpdate({refreshToken: token}, {$unset: {"refreshToken": 1}});
+}
+
+async function refresh(refreshToken) {
+    try {
+        if (!refreshToken) {
+            throw ApiError.unauthorized("User not authorized");
+        }
+        await jwt.verify(refreshToken, process.env.REFRESH_SECRET_KEY);
+        const userToken = await User.findOne({refreshToken});
+        if (!userToken) {
+            throw ApiError.unauthorized("User not authorized");
+        }
+        const tokens = await createJWT(userToken);
+        return tokens;
+    } catch {
+        await User.findOneAndUpdate({refreshToken}, {$unset: {"refreshToken": 1}});
+        throw ApiError.unauthorized("User not authorized");
+    }
+}
+
+async function createJWT(userExist) {
+    //create payload
+    const {email, name} = userExist;
+    const payload = {
+        email, name
+    };
+    const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET_KEY, {expiresIn: "20s"});
+    const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET_KEY, {expiresIn: "30d"});
+    await userExist.updateOne({refreshToken});
+    return {accessToken, refreshToken};
 }
 
 async function findAllUsers() {
-    try{
-        const users = await User.find();
-        return users;
-    }
-    catch(e){
-        return e
-    }
-
+    const users = await User.find();
+    return users;
 }
-
 module.exports = {
-    findUser, createUser,findAllUsers
+    findAllUsers, login, register, logout, refresh
 };
