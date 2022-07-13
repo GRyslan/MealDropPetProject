@@ -4,7 +4,7 @@ This project will be created based on course task in Coursera Capstone Project M
 Not hosted(and maybe will not)
 
 Current Task: 
-  implement stable auth with access and refresh tokens
+ make final version of auth with access and refresh tokens and tests
 
 Current Technology Stack: 
 React.js, TypeScript(for client), Rtk Query, Mui,
@@ -21,6 +21,8 @@ Client
     
 Current view
 
-![image](https://user-images.githubusercontent.com/45923857/178482344-cee0fa0e-dbae-4e3d-b4a8-31e41c0b25f6.png)
-![image](https://user-images.githubusercontent.com/45923857/178482835-00d51e10-3413-4814-8538-f2cfe7fad076.png)
+![image](https://user-images.githubusercontent.com/45923857/178811246-362b4dbd-8341-4446-9b71-8e889cd904fe.png)
+![image](https://user-images.githubusercontent.com/45923857/178811285-2aef0dcb-b1c5-47b9-9a6e-a1dfae3196ee.png)
+![image](https://user-images.githubusercontent.com/45923857/178811339-06555c13-f025-45e7-9e4e-60561cd96866.png)
+
 
