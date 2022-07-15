@@ -5,20 +5,37 @@ import {darkTheme, lightTheme} from './ui/themes';
 import {BrowserRouter} from 'react-router-dom';
 import Router from './components/Router';
 import NavBar from './components/NavBar';
-import {toggleAuth} from './store/reducers/authSlice';
+import {setToken, toggleAuth} from './store/reducers/authSlice';
+import {toggleTheme} from './store/reducers/themeSlice';
+import {usersApi} from './services/userApi';
 
 const App = () => {
   const dispatch = useTypedDispatch();
+  const token = useTypedSelector((state) => state.authSlice.token);
   const isAuth = useTypedSelector((state) => state.authSlice.isAuth);
+  const reduxTheme = useTypedSelector((state) => state.themeSlice.darkTheme);
+  const [refresh] = usersApi.useRefreshUserMutation()
   useEffect(() => {
-    if (localStorage.getItem('token')) {
-      dispatch(toggleAuth(true))
-    }
-  }, [])
-  const theme = useTypedSelector((state) => state.themeSlice);
+      console.log("THEME MIDDLEWARE")
+      localStorage.setItem('theme', String(reduxTheme));
+    }, [reduxTheme]);
+
+const  checkAuth = async() =>{
+  try {
+    const response = await refresh().unwrap()
+    dispatch(setToken({token:response.accessToken,user:response.user}));
+    dispatch(toggleAuth(true));
+  } catch (e) {
+    console.log(e)
+  }
+}
+  useEffect(() => {
+      checkAuth()
+
+  },[])
   return (
     <BrowserRouter>
-        <ThemeProvider theme={theme.darkTheme ? darkTheme : lightTheme}>
+        <ThemeProvider theme={reduxTheme ? darkTheme : lightTheme}>
           <CssBaseline/>
           <NavBar/>
           <Router/>
@@ -26,6 +43,5 @@ const App = () => {
     </BrowserRouter>
   );
 };
-
 export default App;
 

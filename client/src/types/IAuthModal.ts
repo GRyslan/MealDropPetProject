@@ -1,5 +1,5 @@
 export interface IAuthModal {
   handleClose(): void,
-  open: boolean,
+  open: boolean
 }
 

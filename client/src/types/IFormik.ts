@@ -1,17 +1,18 @@
 import React, {ChangeEventHandler, FocusEventHandler} from 'react';
 import {FormikErrors, FormikTouched} from 'formik';
-import {IUserLoginRequest, UserRegisterRequest} from './IUserApi';
+import {IUserLoginRequest, IUserRegisterRequest} from './IUserApi';
 
 export interface IValues {
   value:string,
   label:string,
+  type:string
 }
 
 export interface IFormik {
   config:IValues[],
   handleChange:ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>,
-  touched:FormikTouched<UserRegisterRequest | IUserLoginRequest>,
-  errors:FormikErrors<UserRegisterRequest | IUserLoginRequest>,
+  touched:FormikTouched<IUserRegisterRequest | IUserLoginRequest>,
+  errors:FormikErrors<IUserRegisterRequest | IUserLoginRequest>,
   handleBlur:FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>,
   values:{ [field: string]: string }
 }

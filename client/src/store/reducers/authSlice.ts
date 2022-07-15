@@ -1,25 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {toggleTheme} from './themeSlice';
+import {IAuthState} from '../../types/IUserApi';
 
-type AuthState = {
-  isAuth: boolean,
-  user: string | null
-  token: any
-}
+
 export const authSlice = createSlice({
   name: "auth",
   initialState: {
     isAuth: false,
-    user: null,
-    token: localStorage.getItem('token')
-  } as AuthState,
+    user: {},
+    token: ''
+  } as IAuthState,
   reducers: {
     toggleAuth: (state,{payload}) => {
       state.isAuth = payload;
     },
-    setToken:(state, {payload})=>{
-      state.user="SOMETHING"
-      state.token=payload
+    setToken:(state, {payload:{token,user}})=>{
+      state.user=user;
+      state.token=token;
 
     }
   },
