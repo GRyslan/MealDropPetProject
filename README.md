@@ -21,8 +21,9 @@ Client
     
 Current view
 
-![image](https://user-images.githubusercontent.com/45923857/178811246-362b4dbd-8341-4446-9b71-8e889cd904fe.png)
-![image](https://user-images.githubusercontent.com/45923857/178811285-2aef0dcb-b1c5-47b9-9a6e-a1dfae3196ee.png)
-![image](https://user-images.githubusercontent.com/45923857/178811339-06555c13-f025-45e7-9e4e-60561cd96866.png)
+![image](https://user-images.githubusercontent.com/45923857/179207959-90720472-a204-4225-aad6-6cbdbb9f540d.png)
+![image](https://user-images.githubusercontent.com/45923857/179207920-e73fea41-720a-47b3-9da8-479561a620e6.png)
+![image](https://user-images.githubusercontent.com/45923857/179208064-9f543ee6-4d0c-48ac-a5dd-1675d68c8ea2.png)
+
 
 
