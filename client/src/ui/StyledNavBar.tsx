@@ -1,16 +1,31 @@
 import {AppBar, styled, SvgIcon, Switch} from '@mui/material';
 import {IStyledSvgIconProps} from '../types/IStyledSvgIconProps';
+import {breakpoints} from './themes';
 export const APP_BAR_HEIGHT="60px";
+export const APP_BAR_HEIGHT_TABLET='55px'
+export const APP_BAR_HEIGHT_MOBILE='50px'
 export const DARK_LIGHT_BLUE = "rgba(144,202,249, 0.75)"
 export const DARK_WHITE = "rgba(255, 255, 255, 0.75)";
 export const LIGHT_BLACK= "rgba(0, 0, 0, 0.75)"
 export const StyledAppBar =styled(AppBar)(({theme})=>({
   height: APP_BAR_HEIGHT,
+  [`@media only screen and (max-width: ${breakpoints.values.sm}px)`]:{
+    height:APP_BAR_HEIGHT_MOBILE
+  },
+  [`@media only screen and (min-width: ${breakpoints.values.sm}px) and (max-width: ${breakpoints.values.lg}px)`]:{
+    height:APP_BAR_HEIGHT_TABLET
+  },
   padding: '0 5px',
 }));
 
 export const StyledSvgIcon = styled(SvgIcon)<IStyledSvgIconProps>(({ theme }) => ({
    width: "auto", height:APP_BAR_HEIGHT ,fill:theme.palette.mode==='light'? "gray":DARK_LIGHT_BLUE,
+  [`@media only screen and (max-width: ${breakpoints.values.sm}px)`]:{
+    height:APP_BAR_HEIGHT_MOBILE
+  },
+  [`@media only screen and (min-width: ${breakpoints.values.sm}px) and (max-width: ${breakpoints.values.lg}px)`]:{
+    height:APP_BAR_HEIGHT_TABLET
+  },
 }));
 
 // default custom switch from mui with some improvements

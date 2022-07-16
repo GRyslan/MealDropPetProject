@@ -7,7 +7,6 @@ import {authLogin, authRegister} from '../formik/authModalValues';
 import {IAuthModal} from '../../types/IAuthModal';
 import {StyledButton, StyledButtonAuth} from '../../ui/generalComponents/StyledButton';
 import {usersApi} from '../../services/userApi';
-import {IUserLoginRequest, IUserRegisterRequest} from '../../types/IUserApi';
 import {useTypedDispatch} from '../../hooks/redux';
 import {setToken, toggleAuth} from '../../store/reducers/authSlice';
 
@@ -31,35 +30,22 @@ const validationSchemaRegister = yup.object({
     .string()
     .oneOf([yup.ref('password'), null], 'Passwords must match')
 });
-const registerValues = {
-  email: '',
-  password: '',
-  name: '',
-  confirmPassword: ''
-} as IUserRegisterRequest;
-
-const loginValues = {
-  email: '',
-  password: '',
-} as IUserLoginRequest;
-
 export function AuthModal({handleClose, open}: IAuthModal) {
   const [isLogin, setAuth] = useState(true);
-  const handleChangeAuth =(e:any) => {
+  const handleChangeAuth =  () => {
     setAuth(!isLogin);
-    resetForm()
-    console.log(JSON.stringify(values, null, 2));
+    resetForm();
   };
   const dispatch = useTypedDispatch();
   const [login] = usersApi.useLoginUserMutation();
   const [register] = usersApi.useRegisterUserMutation();
-  const {resetForm, handleBlur, handleChange, handleSubmit, touched, values, errors, setValues} = useFormik({
+  const {resetForm, handleBlur, handleChange, handleSubmit, touched, values, errors} = useFormik({
     initialValues: {
       email: '',
       password: '',
       name: '',
       confirmPassword: ''
-    } as any,
+    },
     validationSchema: isLogin ? validationSchemaLogin : validationSchemaRegister,
     enableReinitialize: true,
     onSubmit: async (values) => {
@@ -99,9 +85,9 @@ export function AuthModal({handleClose, open}: IAuthModal) {
                           handleBlur={handleBlur} values={values}/>
           <Grid item xs={12}>
             {isLogin ? <div>Don't have account yet ? <br/> Click <StyledButtonAuth
-                onClick={(e:any)=>handleChangeAuth(e)}>REGISTER</StyledButtonAuth></div>
+                onClick={handleChangeAuth}>REGISTER</StyledButtonAuth></div>
               : <div>Already have account ? <br/>Click <StyledButtonAuth
-                onClick={(e:any)=>handleChangeAuth(e)}>LOGIN</StyledButtonAuth></div>}
+                onClick={handleChangeAuth}>LOGIN</StyledButtonAuth></div>}
           </Grid>
 
           <Grid item xs={6} display="flex" justifyContent="end">

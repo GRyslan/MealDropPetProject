@@ -1,7 +1,6 @@
 import { coreApi } from "./coreApi";
 import {
   IUserGetResponse,
-  IUserPostResponse,
   IUserLoginRequest,
   IUserRegisterRequest,
   IUserPostResponseUnwrap

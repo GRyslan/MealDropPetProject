@@ -36,7 +36,8 @@ const NavBar = () => {
         <Toolbar disableGutters>
           <NavLink to="/">
             <Tooltip title="Return to Main Menu" placement="right" arrow>
-              <StyledSvgIcon  component={Logo} inheritViewBox  />
+              <StyledSvgIcon  component={Logo} inheritViewBox >
+              </StyledSvgIcon>
             </Tooltip>
           </NavLink>
           <Grid container justifyContent="flex-end">

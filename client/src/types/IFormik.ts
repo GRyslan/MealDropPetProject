@@ -5,7 +5,8 @@ import {IUserLoginRequest, IUserRegisterRequest} from './IUserApi';
 export interface IValues {
   value:string,
   label:string,
-  type:string
+  type:string,
+  autoComplete?:string,
 }
 
 export interface IFormik {
