@@ -4,9 +4,9 @@ This project will be created based on course task in Coursera Capstone Project M
 Not hosted(and maybe will not)
 
 Current Task: 
- make final version of auth with access and refresh tokens and tests
+ make tests with API and integration with github
 
-Current Technology Stack: 
+Current Technologies Stack: 
 React.js, TypeScript(for client), RTK Query, Mui,
 
 Express.js, Rabbit MQ, Mongoose (for Mongo DB), jsonwebtoken
@@ -14,10 +14,10 @@ Express.js, Rabbit MQ, Mongoose (for Mongo DB), jsonwebtoken
 Current Project include:
 
 Server
-    boilerplate app.js from course , auth with acceess + refresh (almost final version)
+    boilerplate app.js from course , auth with acceess + refresh (not final)
 
 Client
-     navbar with theme changer, auth with acceess + refresh (almost final version)
+     navbar with theme changer, auth with acceess + refresh (not final)
     
 Current view
 
