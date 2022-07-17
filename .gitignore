@@ -2,3 +2,4 @@
 **/*.zip
 **/.vscode
 **/*.env
+/MealDrop_API/.nyc_output

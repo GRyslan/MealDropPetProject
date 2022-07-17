@@ -41,7 +41,7 @@ Instructions
 
     c.	Implement the code for model
         1. Goto model folder under MealDrop_API folder 
-            i. Create userModel.js file under the model folder for implementing the model code
+            i. Create userModel.test.js file under the model folder for implementing the model code
         2. Goto model folder under MealDrop_Delivery_Agent_API folder
             i. Create deliveryAgentModel.js file under the model folder for implementing the model code
         3. Goto model folder under MealDrop_Restaurant_Patner_API_MealDrop folder

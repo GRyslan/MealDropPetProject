@@ -13,25 +13,19 @@ const FormikTemplate = ({config, handleChange, touched, errors, handleBlur, valu
   const [visibility, setVisibility] = useState(false);
   const [visibilityConfirm, setVisibilityConfirm] = useState(false);
   const builder = (individualConfig: IValues) => {
-    const GenericTextField = (props:any) => {
-      return (
-        <Grid item xs={12} >
-      <TextField id={individualConfig.value} required
-                 name={individualConfig.value}
-                 label={individualConfig.label}
-                 value={values[individualConfig.value]} fullWidth
-                 onChange={handleChange}
-                 error={touched[individualConfig.value] && Boolean(errors[individualConfig.value])}
-                 helperText={touched[individualConfig.value] && errors[individualConfig.value]}
-                 onBlur={handleBlur} {...props}
-      />
-        </Grid>
-      )
-    }
     switch (individualConfig.type) {
       case('password'):
         return (
-          <GenericTextField key={individualConfig.label}
+          <Grid item xs={12} >
+          <TextField key={individualConfig.label}
+                     id={individualConfig.value} required
+                     name={individualConfig.value}
+                     label={individualConfig.label}
+                     value={values[individualConfig.value]} fullWidth
+                     onChange={handleChange}
+                     error={touched[individualConfig.value] && Boolean(errors[individualConfig.value])}
+                     helperText={touched[individualConfig.value] && errors[individualConfig.value]}
+                     onBlur={handleBlur}
                      autoComplete="new-password"
                      type={individualConfig.value === 'password' ? (visibility ? 'text' : 'password')
                        : (visibilityConfirm ? 'text' : 'password')}
@@ -40,13 +34,24 @@ const FormikTemplate = ({config, handleChange, touched, errors, handleBlur, valu
                          <VisibilityIcon setVisibility={setVisibility} visibility={visibility}/>
                          :
                          <VisibilityIcon setVisibility={setVisibilityConfirm} visibility={visibilityConfirm}/>
-                     }}/>);
+                     }}/>  </Grid>);
+
       default:
         return (
-          <GenericTextField key={individualConfig.label}
+          <Grid item xs={12} >
+          <TextField key={individualConfig.label}
+                     id={individualConfig.value} required
+                     name={individualConfig.value}
+                     label={individualConfig.label}
+                     value={values[individualConfig.value]} fullWidth
+                     onChange={handleChange}
+                     error={touched[individualConfig.value] && Boolean(errors[individualConfig.value])}
+                     helperText={touched[individualConfig.value] && errors[individualConfig.value]}
+                     onBlur={handleBlur}
             type={individualConfig.type}
             autoComplete="username"
-          />);
+          />
+          </Grid>);
     }
   };
   return (

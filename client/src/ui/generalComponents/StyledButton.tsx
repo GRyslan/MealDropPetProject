@@ -1,12 +1,13 @@
 import {Button, styled} from '@mui/material';
 import {DARK_LIGHT_BLUE, DARK_WHITE, LIGHT_BLACK} from '../StyledNavBar';
 
+export const LIGHT_DARK_GRAY = '#888888'
 export const StyledButton = styled(Button)(({theme}) => (
   Object.assign({
     borderRadius: 0,
     margin: '2px',
   }, theme.palette.mode === 'light' ? {
-    backgroundColor: '#888888',
+    backgroundColor: LIGHT_DARK_GRAY,
     color: 'white',
     '&:hover': {
       backgroundColor: LIGHT_BLACK,

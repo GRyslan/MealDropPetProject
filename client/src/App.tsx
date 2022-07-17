@@ -30,7 +30,9 @@ const  checkAuth = async() =>{
   }
 }
   useEffect(() => {
+    if(localStorage.getItem('token')) {
       checkAuth()
+    }
 
   },[])
   return (

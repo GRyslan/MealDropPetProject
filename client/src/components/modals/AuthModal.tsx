@@ -78,7 +78,7 @@ export function AuthModal({handleClose, open}: IAuthModal) {
 
         <Grid container spacing={1} sx={{padding: '20px'}}>
           <Grid item xs={12}>
-            <Typography variant="h4" component="div">{isLogin ? 'Login' : 'Register'}</Typography>
+            <h4>{isLogin ? 'Login' : 'Register'}</h4>
           </Grid>
           <FormikTemplate config={isLogin ? authLogin : authRegister} handleChange={handleChange} touched={touched}
                           errors={errors}
