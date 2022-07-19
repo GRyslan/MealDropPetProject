@@ -18,9 +18,9 @@ async function createRestaurant(name) {
 }
 
 async function findAllRestaurants(limit,skip) {
-    console.log(limit)
+    const count = await Restaurant.countDocuments();
     const restaurants = await Restaurant.find().skip(skip).limit(limit);
-    return restaurants;
+    return {restaurants,count};
 }
 
 async function findRestaurant(name) {
