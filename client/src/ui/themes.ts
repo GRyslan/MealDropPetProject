@@ -44,7 +44,23 @@ export const darkTheme = createTheme({
       main: '#90caf9'
     }
   },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 576, // Phone
+      md: 768, // Tablet/Laptop
+      lg: 1500, // Desktop
+      xl: 2000
+    }
+  },
   typography: {
-    fontSize: 10,
+    allVariants: {
+      [`@media only screen and (max-width: ${breakpoints.values.sm}px)`]: {
+        fontSize: 12,
+      },
+      [`@media only screen and (min-width: ${breakpoints.values.sm}px) and (max-width: ${breakpoints.values.lg}px)`]: {
+        fontSize: 14,
+      }
+    }
   },
 });

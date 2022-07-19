@@ -1,5 +1,6 @@
 const Restaurant = require("../models/restaurantModel");
 const ApiError = require("../classes/errorClass");
+
 /* used for adding 100 restaurants names to mongo
 
 let massive = [];
@@ -15,10 +16,13 @@ async function createRestaurant(name) {
     const newRestaurant = await Restaurant.create({name});
     return newRestaurant;
 }
-async function findAllRestaurants() {
-    const restaurants = await Restaurant.find();
+
+async function findAllRestaurants(limit,skip) {
+    console.log(limit)
+    const restaurants = await Restaurant.find().skip(skip).limit(limit);
     return restaurants;
 }
+
 async function findRestaurant(name) {
     try {
         const userExist = await Restaurant.findOne({name});

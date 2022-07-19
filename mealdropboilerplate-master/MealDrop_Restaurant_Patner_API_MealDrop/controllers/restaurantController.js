@@ -4,14 +4,15 @@ async function addRestaurant(req,res,next){
     try {
         const {name}=req.body;
         const restaurant = await restaurantService.createRestaurant(name);
-        return res.status(201).json({message: `Registration successful`,restaurant});
+        return res.status(201).json({message: "Registration successful",restaurant});
     } catch (e) {
         return next(e)
     }
 }
 async function getAllRestaurants(req, res, next) {
     try {
-        const allRestaurants = await restaurantService.findAllRestaurants();
+        const {limit,skip} = req.query
+        const allRestaurants = await restaurantService.findAllRestaurants(limit,skip);
         return res.status(200).json(allRestaurants);
     } catch (e) {
         return next(e);

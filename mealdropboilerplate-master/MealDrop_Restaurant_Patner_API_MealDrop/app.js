@@ -9,7 +9,7 @@ const {errorHandler} = require("./middlewares/errorMiddleware");
 const app = express();
 
 app.use(express.json());
-app.use(cors({ origin: process.env.CLIENT_API}));
+app.use(cors({credentials:true, origin: process.env.CLIENT_API}));
 app.use("/api/v1/restaurants", restaurantRouter);
 app.use(errorHandler);
 amqp.connect("amqp://localhost", (connError, connection) => {
