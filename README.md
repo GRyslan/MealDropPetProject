@@ -1,5 +1,4 @@
-Current Task: 
- ~~make tests with API and integration with github~~ add some actual code for this task to work correct until next evening 
+
 
 
 This project will be created based on course task in Coursera Capstone Project Mealdrop for Backend. Readme and Problem from course in mealdropboilerplate-master package
