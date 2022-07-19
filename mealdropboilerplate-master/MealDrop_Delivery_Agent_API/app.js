@@ -14,7 +14,7 @@ app.use("/api/v1/agent", agentRouter);
 
 amqp.connect("amqp://localhost", (connError, connection) => {
     if (connError) {
-        throw connError;
+        return console.log(("Rabbit MQ server not started \n" + connError))
     }
 
     connection.createChannel(async (channelError, channel) => {

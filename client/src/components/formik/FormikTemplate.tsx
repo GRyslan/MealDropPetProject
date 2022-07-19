@@ -16,8 +16,8 @@ const FormikTemplate = ({config, handleChange, touched, errors, handleBlur, valu
     switch (individualConfig.type) {
       case('password'):
         return (
-          <Grid item xs={12} >
-          <TextField key={individualConfig.label}
+          <Grid item xs={12} key={individualConfig.label}>
+          <TextField
                      id={individualConfig.value} required
                      name={individualConfig.value}
                      label={individualConfig.label}
@@ -38,8 +38,8 @@ const FormikTemplate = ({config, handleChange, touched, errors, handleBlur, valu
 
       default:
         return (
-          <Grid item xs={12} >
-          <TextField key={individualConfig.label}
+          <Grid item xs={12} key={individualConfig.label}>
+          <TextField
                      id={individualConfig.value} required
                      name={individualConfig.value}
                      label={individualConfig.label}
@@ -55,11 +55,11 @@ const FormikTemplate = ({config, handleChange, touched, errors, handleBlur, valu
     }
   };
   return (
-    <>
+    <React.Fragment>
       {config.map((c: IValues) => {
         return builder(c);
       })}
-    </>
+    </React.Fragment>
   );
 };
 

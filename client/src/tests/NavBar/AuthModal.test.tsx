@@ -4,6 +4,7 @@ import {store} from '../../store/store';
 import {Provider} from 'react-redux';
 import React from 'react';
 import userEvent from '@testing-library/user-event';
+import "../jestSetup"
 
 function rendering() {
   const {} = render(<Provider store={store}>
@@ -15,8 +16,7 @@ describe('NavBar testing', () => {
   it('AuthModal should contain all implemented component on initial', async () => {
     rendering();
     // eslint-disable-next-line testing-library/no-debugging-utils
-    screen.debug(undefined, 300000);
-    console.log('ITS DEBUG');
+   // screen.debug(undefined, 300000);
     expect(await screen.findByRole('dialog')).toBeInTheDocument();
     expect(screen.getByRole('heading', {name: /Login/i})).toBeInTheDocument();
     expect(screen.getByLabelText('Email *')).toBeInTheDocument();
@@ -55,12 +55,25 @@ describe('NavBar testing', () => {
   it('AuthModal should close on Cancel button click', async () => {
     rendering();
     const cancel = screen.getByRole('button', {name: /Cancel/i})
-    expect(cancel).toBeInTheDocument();
     await userEvent.click(cancel);
     await waitForElementToBeRemoved(screen.queryByRole('dialog'))
     expect(screen.queryByRole('dialog')).toBeNull()
     // eslint-disable-next-line testing-library/no-debugging-utils
-    screen.debug(undefined, 300000);
+    //screen.debug(undefined, 300000);
+    console.log('ITS DEBUG');
+  });
+  it('AuthModal should send data on Submit button click', async () => {
+    rendering();
+    const submit = screen.getByRole('button', {name: /Submit/i})
+    const email = screen.getByLabelText('Email *')
+    const password = screen.getByLabelText('Password *')
+    await userEvent.type(password, 'ThisIsPassword');
+    await userEvent.type(email, 'ThisIsEmail@gmail.com')
+    await userEvent.click(submit);
+    await waitForElementToBeRemoved(screen.queryByRole('dialog'), {timeout:5000})
+    expect(screen.queryByRole('dialog')).toBeNull()
+    // eslint-disable-next-line testing-library/no-debugging-utils
+    //screen.debug(undefined, 300000);
     console.log('ITS DEBUG');
   });
 });

@@ -40,10 +40,9 @@ describe('NavBar testing', () => {
     expect(screen.getByRole('button',{name:/Login/i})).toHaveStyle(`backgroundColor:${LIGHT_DARK_GRAY}`);
 
   });
-  it('should contain button and show Modal on click`', async () => {
+  it('should show Modal on Login click`', async () => {
     rendering()
     fireEvent.click(screen.getByRole('button',{name:/Login/i}))
-
     expect(await screen.findByRole('dialog')).toBeInTheDocument()
 
   });
