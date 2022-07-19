@@ -5,7 +5,7 @@ import {RootState} from '../store/store';
 import {IUserPostResponse} from '../types/IUserApi';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: process.env.REACT_APP_MealDrop_Api + 'user',
+  baseUrl: 'http://',
   prepareHeaders: (headers, {getState}) => {
     const token = (getState() as RootState).authSlice.token;
     if (token) {

@@ -1,20 +1,22 @@
 const restaurantService = require("../services/restaurantService")
 const amqp = require("amqplib");
-async function addRestaurant(req,res){
+async function addRestaurant(req,res,next){
     try {
         const {name}=req.body;
-        const restaurantExist = await restaurantService.findRestaurant(name);
-        if (restaurantExist) {
-            return res.status(400).json({message: "Restaurant already exist"});
-        }
-        const restaurantUser = await restaurantService.createRestaurant(name);
-        return res.status(201).json({message: `Registration successful + ${restaurantUser}`});
+        const restaurant = await restaurantService.createRestaurant(name);
+        return res.status(201).json({message: `Registration successful`,restaurant});
     } catch (e) {
-        console.log(e);
-        return res.status(400).json({message: "Registration error"});
+        return next(e)
     }
 }
-
+async function getAllRestaurants(req, res, next) {
+    try {
+        const allRestaurants = await restaurantService.findAllRestaurants();
+        return res.status(200).json(allRestaurants);
+    } catch (e) {
+        return next(e);
+    }
+}
 const queue = "completedOrder";
 
 async function sendOrderToAgent(req, res) {
@@ -31,4 +33,4 @@ async function sendOrderToAgent(req, res) {
         return res.status(400).json({message: "Registration error"});
     }
 }
-module.exports={addRestaurant,sendOrderToAgent}
+module.exports={addRestaurant,sendOrderToAgent,getAllRestaurants}

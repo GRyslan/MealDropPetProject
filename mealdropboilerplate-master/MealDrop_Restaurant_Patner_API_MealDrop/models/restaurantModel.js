@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema({
     name:{type:String,unique:true,required:true},
-    newOrder: [{
+    /*newOrder: [{
         dish: {type: String},
         count: {type: Number},
 
-    }],
+    }],*/
     order:{pendingOrder:{type: Array,default:[]}}
 });
 

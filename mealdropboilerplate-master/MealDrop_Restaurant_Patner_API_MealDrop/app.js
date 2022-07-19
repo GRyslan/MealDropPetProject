@@ -4,14 +4,14 @@ const amqp = require("amqplib/callback_api");
 
 const restaurantRouter = require("./routes/restaurantRouter.js");
 const Restaurant = require("./models/restaurantModel");
+const {errorHandler} = require("./middlewares/errorMiddleware");
 
 const app = express();
 
 app.use(express.json());
-app.use(cors());
-
+app.use(cors({ origin: process.env.CLIENT_API}));
 app.use("/api/v1/restaurants", restaurantRouter);
-
+app.use(errorHandler);
 amqp.connect("amqp://localhost", (connError, connection) => {
     if (connError) {
         return console.log(("Rabbit MQ server not started \n" + connError))
