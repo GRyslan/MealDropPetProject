@@ -21,6 +21,16 @@ async function getAllRestaurants(req, res, next) {
     }
 }
 
+async function getOneRestaurant(req, res, next) {
+    try {
+        const {id} = req.params;
+        const oneRestaurant = await restaurantService.findOneRestaurant(id);
+        return res.status(200).json(oneRestaurant);
+    } catch (e) {
+        return next(e);
+    }
+}
+
 const queue = "completedOrder";
 
 async function sendOrderToAgent(req, res) {
@@ -38,4 +48,4 @@ async function sendOrderToAgent(req, res) {
     }
 }
 
-module.exports = {addRestaurant, sendOrderToAgent, getAllRestaurants};
+module.exports = {addRestaurant, sendOrderToAgent, getAllRestaurants,getOneRestaurant};

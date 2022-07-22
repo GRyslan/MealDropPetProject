@@ -22,6 +22,10 @@ async function findAllRestaurants(limit,skip) {
     const restaurants = await Restaurant.find().skip(skip).limit(limit);
     return {restaurants,count};
 }
+async function findOneRestaurant(name) {
+    const restaurant = await Restaurant.findOne({name});
+    return restaurant;
+}
 
 async function findRestaurant(name) {
     try {
@@ -34,4 +38,4 @@ async function findRestaurant(name) {
 
 }
 
-module.exports = {createRestaurant, findAllRestaurants, findRestaurant};
+module.exports = {createRestaurant, findAllRestaurants, findRestaurant,findOneRestaurant};

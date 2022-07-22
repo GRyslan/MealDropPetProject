@@ -1,4 +1,6 @@
 import {coreApi} from './coreApi';
+import {IUserLoginRequest, IUserPostResponseUnwrap} from '../types/IUserApi';
+import {IRestaurantCreate} from '../types/IRestaurantApi';
 
 const RESTAURANT_URL = process.env.REACT_APP_MealDrop_Restaurant + 'restaurants';
 export const restaurantApi = coreApi.injectEndpoints({
@@ -7,6 +9,20 @@ export const restaurantApi = coreApi.injectEndpoints({
       query: ({limit, skip}) => ({
         url: RESTAURANT_URL + `/showAll`,
         params: {limit, skip}
+      }),
+      providesTags:["Restaurant",],
+    }),
+    createRestaurant: build.mutation<IUserPostResponseUnwrap,IRestaurantCreate>({
+      query: (post) => ({
+        url: RESTAURANT_URL +`/create`,
+        method: 'POST',
+        body: post
+      }),
+      invalidatesTags:["Restaurant",],
+    }),
+    getOneRestaurant: build.query({
+      query: (arg) => ({
+        url: RESTAURANT_URL + `/showAll/${arg}`,
       }),
     }),
   })
