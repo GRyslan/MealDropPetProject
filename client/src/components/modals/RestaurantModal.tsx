@@ -11,19 +11,22 @@ import {createRestaurant} from '../formik/restaurantModalValues';
 const validationSchemaRestaurant = yup.object({
   name: yup.string().required('Name is required').max(16, 'Max length 16'),
 });
-export function RestaurantModal({handleClose, open}: IAuthModal) {
-  const [create]= restaurantApi.useCreateRestaurantMutation()
+export function RestaurantModal({handleClose, open,flag,data}: any) {
+  const [create]= restaurantApi.useCreateRestaurantMutation();
+
+  const [update]= restaurantApi.useUpdateOneRestaurantMutation();
   const {resetForm, handleBlur, handleChange, handleSubmit, touched, values, errors} = useFormik({
     initialValues: {
-      name: ''
-    },
+      name: data.name
+    } as any,
     validationSchema: validationSchemaRestaurant,
     enableReinitialize: true,
     onSubmit: async (values) => {
       try {
         console.log(JSON.stringify(values, null, 2));
         let response;
-        response = await create({name: values.name}).unwrap();
+        if (flag) response = await create({name:values.name}).unwrap();
+        else response = await update({body:{name:values.name},id:data.name}).unwrap();
         console.log('DATA');
         console.log(response);
         resetForm();

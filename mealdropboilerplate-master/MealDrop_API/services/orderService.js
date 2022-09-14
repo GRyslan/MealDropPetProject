@@ -1,14 +1,9 @@
 const Order = require("../models/orderModel");
 
-async function createOrder(userId,order,restaurantId) {
-    try{
-        const newUser = await Order.create({userId,order,restaurantId});
-        return newUser;
-    }
-    catch(e){
-        console.log(e);
-        return false
-    }
+async function createOrder(userId, order, restaurantId) {
+    const newOrder = await Order.create({userId, order, restaurantId});
+    return newOrder;
 
 }
-module.exports={createOrder}
+
+module.exports = {createOrder};

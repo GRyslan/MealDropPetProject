@@ -2,8 +2,8 @@ import {coreApi} from './coreApi';
 import {IUserLoginRequest, IUserPostResponseUnwrap} from '../types/IUserApi';
 import {IRestaurantCreate} from '../types/IRestaurantApi';
 
-const RESTAURANT_URL = process.env.REACT_APP_MealDrop_Restaurant + 'restaurants';
-export const restaurantApi = coreApi.injectEndpoints({
+const RESTAURANT_URL = process.env.REACT_APP_MealDrop_Delivery + 'agent';
+export const agentApi = coreApi.injectEndpoints({
   endpoints: (build) => ({
     getAllRestaurants: build.query({
       query: ({limit, skip}) => ({
@@ -24,21 +24,6 @@ export const restaurantApi = coreApi.injectEndpoints({
       query: (arg) => ({
         url: RESTAURANT_URL + `/showAll/${arg}`,
       }),
-    }),
-    deleteOneRestaurant: build.mutation({
-      query: (arg) => ({
-        url: RESTAURANT_URL + `/${arg}`,
-        method: 'DELETE',
-      }),
-      invalidatesTags:["Restaurant",],
-    }),
-    updateOneRestaurant: build.mutation({
-      query: ({id,body}) => ({
-        url: RESTAURANT_URL + `/${id}`,
-        method: 'PUT',
-        body
-      }),
-      invalidatesTags:["Restaurant"],
     }),
   })
 });

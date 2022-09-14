@@ -1,14 +1,16 @@
 const amqp = require("amqplib");
 const orderService = require("../services/orderService");
+const ApiError = require("../classes/errorClass");
 const queue = "createOrder";
 
-async function createOrder(req, res) {
+async function createOrder(req, res,next) {
     try {
         const {userId, order, restaurantId} = req.body;
-        const newOrder = await orderService.createOrder(userId, order, restaurantId);
+        console.log(req.body)
+
 
         const conn = await amqp.connect("amqp://localhost");
-
+        const newOrder = await orderService.createOrder(userId, order, restaurantId);
         const ch1 = await conn.createChannel();
         ch1.sendToQueue(queue, Buffer.from(JSON.stringify(newOrder)));
         setTimeout(function () {
@@ -16,8 +18,10 @@ async function createOrder(req, res) {
             res.send("SENDED");
         }, 500);
     } catch (e) {
-        console.log(e);
-        return res.status(400).json({message: "Registration error"});
+        if (e.code){
+            return next(ApiError.internal("RabbitMQ not work"))
+        }
+        return next(e)
     }
 }
 

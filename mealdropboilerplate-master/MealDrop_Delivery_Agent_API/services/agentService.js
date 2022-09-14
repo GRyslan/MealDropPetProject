@@ -9,6 +9,10 @@ async function createAgent(name){
         return false
     }
 }
+async function findAllOrders() {
+    const orders = await Agent.find();
+    return orders;
+}
 async function findAgent(name) {
     try{
         const userExist = await Agent.findOne({name});
@@ -21,4 +25,4 @@ async function findAgent(name) {
 
 }
 
-module.exports = {createAgent,findAgent}
+module.exports = {createAgent,findAgent,findAllOrders}
